@@ -1,0 +1,61 @@
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { FilterQuery, Model } from "mongoose";
+
+import { HotelRoom, HotelRoomDocument } from "./HotelRoomSchema";
+import {
+  HotelRoomService,
+  SearchRoomsParams,
+} from "./Interfaces/HotelInterface";
+
+@Injectable()
+export class HotelRoomsService implements HotelRoomService {
+  constructor(
+    @InjectModel(HotelRoom.name)
+    private HotelRoomModel: Model<HotelRoomDocument>
+  ) {}
+
+  create(data: Partial<HotelRoom>): Promise<HotelRoom> {
+    const createdHotelRoom = new this.HotelRoomModel(data);
+    return createdHotelRoom.save().then(({ id }) => {
+      return this.HotelRoomModel.findById(
+        id,
+        "title description images isEnabled"
+      ).populate("hotel", "title description");
+    });
+  }
+
+  findById(id: string, isEnabled?: boolean): Promise<HotelRoom> {
+    const filter: { _id: string; isEnabled?: boolean } = { _id: id };
+    if (isEnabled) {
+      filter.isEnabled = isEnabled;
+    }
+    return this.HotelRoomModel.findOne(filter, "title description images")
+      .populate("hotel", "title description")
+      .exec();
+  }
+
+  search(params: SearchRoomsParams): Promise<HotelRoom[]> {
+    const filter: FilterQuery<HotelRoomDocument> = {};
+
+    if (params) {
+      if (params.hotel) {
+        filter.hotel = params.hotel;
+      }
+
+      if (params.isEnabled) {
+        filter.isEnabled = params.isEnabled;
+      }
+    }
+
+    return this.HotelRoomModel.find(filter, "title images")
+      .populate("hotel", "title")
+      .limit(+params.limit)
+      .skip(+params.offset)
+      .exec();
+  }
+
+  update(id: string, data: Partial<HotelRoom>): Promise<HotelRoom> {
+    return this.HotelRoomModel.findByIdAndUpdate(id, data).exec();
+  }
+}

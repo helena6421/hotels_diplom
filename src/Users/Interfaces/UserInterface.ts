@@ -1,5 +1,5 @@
-import { CreateUserDto } from '../Dtos/CreateUserDto';
-import { User } from '../UserSchema';
+import { CreateUserDto } from "../Dtos/CreateUserDto";
+import { User } from "../UserSchema";
 
 export interface SearchUserParams {
   limit: number;

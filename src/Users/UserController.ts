@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from "@nestjs/common";
 
-import { UserService } from './UserService';
-import { CreateUserDto } from './Dtos/CreateUserDto';
-import { SearchUserParams } from './Interfaces/UserInterface';
+import { UserService } from "./UserService";
+import { CreateUserDto } from "./Dtos/CreateUserDto";
+import { SearchUserParams } from "./Interfaces/UserInterface";
 
-@Controller('user')
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -18,12 +18,12 @@ export class UserController {
     return this.userService.findAll(params);
   }
 
-  @Get(':id')
-  findById(@Param('id') id: string) {
+  @Get(":id")
+  findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
 
-  findByEmail(@Query('email') email: string) {
+  findByEmail(@Query("email") email: string) {
     return this.userService.findByEmail(email);
   }
 }

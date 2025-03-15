@@ -26,3 +26,4 @@ $ npm run start:dev
 ## Stay in touch
 
 - Author - [Алёна_Ласкина](https://github.com/helena6421)
+```

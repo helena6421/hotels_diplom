@@ -1,13 +1,10 @@
-import { FilterQuery, Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { FilterQuery, Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
 
-import { CreateUserDto } from './Dtos/CreateUserDto';
-import {
-  IUserService,
-  SearchUserParams,
-} from './Interfaces/UserInterface';
-import { User, UserDocument } from './UserSchema';
+import { CreateUserDto } from "./Dtos/CreateUserDto";
+import { IUserService, SearchUserParams } from "./Interfaces/UserInterface";
+import { User, UserDocument } from "./UserSchema";
 
 @Injectable()
 export class UserService implements IUserService {
@@ -23,16 +20,16 @@ export class UserService implements IUserService {
 
     if (params) {
       if (params.email) {
-        queryFilter.email = { $regex: new RegExp(params.email, 'i') };
+        queryFilter.email = { $regex: new RegExp(params.email, "i") };
       }
 
       if (params.name) {
-        queryFilter.name = { $regex: new RegExp(params.name, 'i') };
+        queryFilter.name = { $regex: new RegExp(params.name, "i") };
       }
 
       if (params.contactPhone) {
         queryFilter.contactPhone = {
-          $regex: new RegExp(params.contactPhone, 'i'),
+          $regex: new RegExp(params.contactPhone, "i"),
         };
       }
 
@@ -46,7 +43,7 @@ export class UserService implements IUserService {
     }
 
     return this.userModel
-      .find(queryFilter, 'email name contactPhone')
+      .find(queryFilter, "email name contactPhone")
       .limit(+queryFilter.limit)
       .skip(+queryFilter.offset)
       .exec();

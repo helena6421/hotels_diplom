@@ -1,5 +1,4 @@
 export class CreateHotelDto {
-    public title: string;
-    public description?: string;
-  }
-  
+  public title: string;
+  public description?: string;
+}
