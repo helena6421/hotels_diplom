@@ -1,0 +1,31 @@
+services:
+  hotels_diplom:
+    build:
+      context: .
+      target: node:14-alpine
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    command: npm run start
+    depends_on:
+      - mongo-db
+    environment:
+      - MONGO_DB_CONNECTION=mongodb://mongo-db:27017/hotels-api
+  mongo-db:
+    image: mongo:3.6
+    ports:
+      - 27017:27017
+    volumes:
+      - hotels-api-mongo-db:/data/db
+  mongo-express:
+    image: mongo-express:0.54
+    ports:
+      - 8080:8080
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo-db
+volumes:
+  hotels-api-mongo-db:
+    driver: local
+
