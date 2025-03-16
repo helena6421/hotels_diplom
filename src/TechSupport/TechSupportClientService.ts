@@ -1,13 +1,13 @@
+import { InjectModel } from "@nestjs/mongoose";
+import { FilterQuery, Model } from "mongoose";
+import { CreateSupportRequestDto } from "./Dtos/CreateSupportRequestDto";
 import { MarkMessagesAsReadDto } from "./Dtos/MarkMessagesAsReadDto";
-import { ISupportRequestEmployeeService } from "./Interfaces/TechSupportInterface";
+import { ISupportRequestClientService } from "./Interfaces/TechSupportInterface";
 import { Message, MessageDocument } from "./MessageSchema";
 import { SupportRequest, SupportRequestDocument } from "./TechSupportSchema";
 
-import { InjectModel } from "@nestjs/mongoose";
-import { FilterQuery, Model } from "mongoose";
-
-export class SupportRequestEmployeeService
-  implements ISupportRequestEmployeeService
+export class SupportRequestClientService
+  implements ISupportRequestClientService
 {
   constructor(
     @InjectModel(SupportRequest.name)
@@ -15,14 +15,34 @@ export class SupportRequestEmployeeService
     @InjectModel(Message.name)
     private readonly messageModel: Model<MessageDocument>
   ) {}
+
+  async createSupportRequest(
+    data: CreateSupportRequestDto
+  ): Promise<SupportRequest> {
+    const createdMessage = new this.messageModel({
+      author: data.user,
+      text: data.text,
+    });
+    const res = await createdMessage.save();
+    const createdSupportRequest = new this.supportRequestModel({
+      user: data.user,
+      messages: [res._id],
+      isActive: true,
+    });
+    return await createdSupportRequest.save();
+  }
+
   async markMessagesAsRead(params: MarkMessagesAsReadDto) {
     const filterQuery: FilterQuery<SupportRequestDocument> = {};
+
     if (params.user) {
       filterQuery.user = params.user;
     }
+
     if (params.supportRequest) {
       filterQuery._id = params.supportRequest;
     }
+
     const supportRequestDocument = await this.supportRequestModel
       .findById(filterQuery._id)
       .exec();
@@ -35,6 +55,7 @@ export class SupportRequestEmployeeService
     );
     return { success: true };
   }
+
   async getUnreadCount(supportRequest: string): Promise<number> {
     const supportRequestDocument = await this.supportRequestModel
       .findById(supportRequest)
@@ -42,11 +63,5 @@ export class SupportRequestEmployeeService
       .populate("messages")
       .exec();
     return supportRequestDocument.messages.length;
-  }
-  async closeRequest(supportRequest: string): Promise<void> {
-    await this.supportRequestModel.findByIdAndUpdate(supportRequest, {
-      isActive: false,
-    });
-    return null;
   }
 }
