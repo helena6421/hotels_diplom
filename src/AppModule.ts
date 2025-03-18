@@ -11,6 +11,7 @@ import { join } from "path";
 import { ReservationApiModule } from "./ReservationsApi/ReservationApiModule";
 import { ChatModule } from "./Chat/ChatModule";
 import { Gateway } from "./Chat/Gateway";
+import { SupportRequestModule } from "./SupportRequests/SupportRequestModule";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { Gateway } from "./Chat/Gateway";
     UserManagementModule,
     ReservationApiModule,
     ChatModule,
+    SupportRequestModule,
     MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
