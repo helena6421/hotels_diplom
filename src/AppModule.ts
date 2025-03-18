@@ -10,6 +10,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { ReservationApiModule } from "./ReservationsApi/ReservationApiModule";
 import { ChatModule } from "./Chat/ChatModule";
+import { Gateway } from "./Chat/Gateway";
 
 @Module({
   imports: [
@@ -27,5 +28,6 @@ import { ChatModule } from "./Chat/ChatModule";
       serveRoot: "/files",
     }),
   ],
+  providers: [Gateway],
 })
 export class AppModule {}
