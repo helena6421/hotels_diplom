@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { UserModule } from "./Users/UserModule";
-import { HotelModule } from "./Hotels/HotelModule";
 import { ReservationModule } from "./Reservations/ReservationModule";
 import { AuthModule } from "./Auth/AuthModule";
 import { ConfigModule } from "@nestjs/config";
@@ -10,6 +9,7 @@ import { HotelApiModule } from "./HotelsApi/HotelApiModule";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { ReservationApiModule } from "./ReservationsApi/ReservationApiModule";
+import { ChatModule } from "./Chat/ChatModule";
 
 @Module({
   imports: [
@@ -19,6 +19,7 @@ import { ReservationApiModule } from "./ReservationsApi/ReservationApiModule";
     AuthModule,
     UserManagementModule,
     ReservationApiModule,
+    ChatModule,
     MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
