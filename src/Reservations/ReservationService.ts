@@ -26,11 +26,16 @@ export class ReservationService implements IReservation {
   }
 
   async removeReservation(id: string): Promise<void> {
-    const res = await this.reservationModel.findByIdAndDelete(id).exec();
-    if (res === null) {
-      throw new BadRequestException("Reservation does not exist");
-    }
-    return null;
+    return this.reservationModel
+      .findByIdAndDelete(id)
+      .exec()
+      .then((res) => {
+        if (res === null) {
+          throw new BadRequestException("Reservation does not exist");
+        }
+
+        return null;
+      });
   }
 
   getReservations(filter: ReservationSearchOptions): Promise<Reservation[]> {

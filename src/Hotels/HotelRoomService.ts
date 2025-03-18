@@ -12,16 +12,15 @@ import {
 export class HotelRoomsService implements HotelRoomService {
   constructor(
     @InjectModel(HotelRoom.name)
-    private HotelRoomModel: Model<HotelRoomDocument>
+    private hotelRoomModel: Model<HotelRoomDocument>
   ) {}
 
   create(data: Partial<HotelRoom>): Promise<HotelRoom> {
-    const createdHotelRoom = new this.HotelRoomModel(data);
+    const createdHotelRoom = new this.hotelRoomModel(data);
     return createdHotelRoom.save().then(({ id }) => {
-      return this.HotelRoomModel.findById(
-        id,
-        "title description images isEnabled"
-      ).populate("hotel", "title description");
+      return this.hotelRoomModel
+        .findById(id, "title description images isEnabled")
+        .populate("hotel", "title description");
     });
   }
 
@@ -30,7 +29,8 @@ export class HotelRoomsService implements HotelRoomService {
     if (isEnabled) {
       filter.isEnabled = isEnabled;
     }
-    return this.HotelRoomModel.findOne(filter, "title description images")
+    return this.hotelRoomModel
+      .findOne(filter, "title description images")
       .populate("hotel", "title description")
       .exec();
   }
@@ -48,7 +48,8 @@ export class HotelRoomsService implements HotelRoomService {
       }
     }
 
-    return this.HotelRoomModel.find(filter, "title images")
+    return this.hotelRoomModel
+      .find(filter, "title images")
       .populate("hotel", "title")
       .limit(+params.limit)
       .skip(+params.offset)
@@ -56,6 +57,6 @@ export class HotelRoomsService implements HotelRoomService {
   }
 
   update(id: string, data: Partial<HotelRoom>): Promise<HotelRoom> {
-    return this.HotelRoomModel.findByIdAndUpdate(id, data).exec();
+    return this.hotelRoomModel.findByIdAndUpdate(id, data).exec();
   }
 }

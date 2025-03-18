@@ -62,7 +62,7 @@ export class SupportRequestService implements ISupportRequestService {
       })
       .exec()
       .then((supportRequestDocument) => {
-        return supportRequestDocument.messages as Message[];
+        return supportRequestDocument.messages as unknown as Message[];
       });
   }
 

@@ -5,15 +5,24 @@ import { HotelModule } from "./Hotels/HotelModule";
 import { ReservationModule } from "./Reservations/ReservationModule";
 import { AuthModule } from "./Auth/AuthModule";
 import { ConfigModule } from "@nestjs/config";
+import { UserManagementModule } from "./UserManagement/UserManagementModule";
+import { HotelApiModule } from "./HotelsApi/HotelApiModule";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 @Module({
   imports: [
     UserModule,
-    HotelModule,
+    HotelApiModule,
     ReservationModule,
     AuthModule,
+    UserManagementModule,
     MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION),
     ConfigModule.forRoot(),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "files"),
+      serveRoot: "/files",
+    }),
   ],
 })
 export class AppModule {}
