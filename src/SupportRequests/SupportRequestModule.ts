@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 
 import { Message, MessageSchema } from "./MessageSchema";
-import { SupportRequestClientService } from "./TechSupportClientService";
-import { SupportRequestEmployeeService } from "./TechSupportManager";
-import { SupportRequest, SupportRequestSchema } from "./TechSupportSchema";
-import { SupportRequestService } from "./TechSupportService";
+import { SupportRequestClientService } from "./SupportRequestClientService";
+import { SupportRequestEmployeeService } from "./SupportRequestEmployeeService";
+import { SupportRequest, SupportRequestSchema } from "./SupportRequestSchema";
+import { SupportRequestService } from "./SupportRequestService";
 
 @Module({
   imports: [

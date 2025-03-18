@@ -2,10 +2,10 @@ import { InjectModel } from "@nestjs/mongoose";
 import { FilterQuery, Model } from "mongoose";
 import { CreateSupportRequestDto } from "./Dtos/CreateSupportRequestDto";
 import { MarkMessagesAsReadDto } from "./Dtos/MarkMessagesAsReadDto";
-import { ISupportRequestClientService } from "./Interfaces/TechSupportInterface";
+import { ISupportRequestClientService } from "./Interfaces/SupportRequestInterface";
 import { Message, MessageDocument } from "./MessageSchema";
-import { SupportRequest, SupportRequestDocument } from "./TechSupportSchema";
-import { ISearchSupportRequestParams } from "./Interfaces/TechSupportSearchInterface";
+import { SupportRequest, SupportRequestDocument } from "./SupportRequestSchema";
+import { ISearchSupportRequestParams } from "./Interfaces/SupportRequestSearchInterface";
 export class SupportRequestClientService
   implements ISupportRequestClientService
 {

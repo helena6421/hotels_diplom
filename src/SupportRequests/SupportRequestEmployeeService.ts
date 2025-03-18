@@ -1,8 +1,8 @@
 import { MarkMessagesAsReadDto } from "./Dtos/MarkMessagesAsReadDto";
-import { ISupportRequestEmployeeService } from "./Interfaces/TechSupportInterface";
+import { ISupportRequestEmployeeService } from "./Interfaces/SupportRequestInterface";
 import { Message, MessageDocument } from "./MessageSchema";
-import { SupportRequest, SupportRequestDocument } from "./TechSupportSchema";
-import { ISearchSupportRequestParams } from "./Interfaces/TechSupportSearchInterface";
+import { SupportRequest, SupportRequestDocument } from "./SupportRequestSchema";
+import { ISearchSupportRequestParams } from "./Interfaces/SupportRequestSearchInterface";
 import { InjectModel } from "@nestjs/mongoose";
 import { FilterQuery, Model } from "mongoose";
 

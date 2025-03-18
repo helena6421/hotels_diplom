@@ -2,7 +2,7 @@ import { CreateSupportRequestDto } from "../Dtos/CreateSupportRequestDto";
 import { MarkMessagesAsReadDto } from "../Dtos/MarkMessagesAsReadDto";
 import { SendMessageDto } from "../Dtos/SendMessageDto";
 import { Message } from "../MessageSchema";
-import { SupportRequest } from "../TechSupportSchema";
+import { SupportRequest } from "../SupportRequestSchema";
 
 export interface ICreateSupportRequestDto {
   user: string;

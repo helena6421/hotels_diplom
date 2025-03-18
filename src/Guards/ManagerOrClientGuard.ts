@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import {
   SupportRequest,
   SupportRequestDocument,
-} from "src/TechSupport/TechSupportSchema";
+} from "src/SupportRequests/SupportRequestSchema";
 
 @Injectable()
 export class ManagerOrClientGuard implements CanActivate {

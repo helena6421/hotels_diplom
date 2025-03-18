@@ -2,9 +2,9 @@ import { SendMessageDto } from "./Dtos/SendMessageDto";
 import {
   IGetChatListParams,
   ISupportRequestService,
-} from "./Interfaces/TechSupportInterface";
+} from "./Interfaces/SupportRequestInterface";
 import { Message, MessageDocument } from "./MessageSchema";
-import { SupportRequest, SupportRequestDocument } from "./TechSupportSchema";
+import { SupportRequest, SupportRequestDocument } from "./SupportRequestSchema";
 import { EventEmitter } from "events";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
