@@ -52,18 +52,16 @@ export class SupportRequestService implements ISupportRequestService {
     return response;
   }
 
-  getMessages(supportRequest: string): Promise<Message[]> {
-    return this.supportRequestModel
+  async getMessages(supportRequest: string): Promise<Message[]> {
+    const supportRequestDocument = await this.supportRequestModel
       .findById(supportRequest)
       .populate({
         path: "messages",
         select: "sentAt text readAt",
         populate: { path: "author", select: "name" },
       })
-      .exec()
-      .then((supportRequestDocument) => {
-        return supportRequestDocument.messages as unknown as Message[];
-      });
+      .exec();
+    return supportRequestDocument.messages as unknown as Message[];
   }
 
   subscribe(

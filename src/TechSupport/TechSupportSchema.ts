@@ -16,7 +16,7 @@ export class SupportRequest {
   user: mongoose.Types.ObjectId;
 
   @Prop({ type: Date, default: Date.now, required: true })
-  created: Date;
+  createdAt: Date;
 
   @Prop({
     type: [mongoose.SchemaTypes.ObjectId],

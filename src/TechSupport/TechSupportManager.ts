@@ -2,7 +2,7 @@ import { MarkMessagesAsReadDto } from "./Dtos/MarkMessagesAsReadDto";
 import { ISupportRequestEmployeeService } from "./Interfaces/TechSupportInterface";
 import { Message, MessageDocument } from "./MessageSchema";
 import { SupportRequest, SupportRequestDocument } from "./TechSupportSchema";
-
+import { ISearchSupportRequestParams } from "./Interfaces/TechSupportSearchInterface";
 import { InjectModel } from "@nestjs/mongoose";
 import { FilterQuery, Model } from "mongoose";
 
@@ -15,6 +15,18 @@ export class SupportRequestEmployeeService
     @InjectModel(Message.name)
     private readonly messageModel: Model<MessageDocument>
   ) {}
+  async searchSupportRequests(params: ISearchSupportRequestParams) {
+    const queryFilter: FilterQuery<SupportRequestDocument> = {};
+    if (params && params.isActive) {
+      queryFilter.isActive = params.isActive;
+    }
+    return this.supportRequestModel
+      .find(queryFilter, "createdAt isActive")
+      .populate("user", "name email contactPhone")
+      .limit(+params.limit)
+      .skip(+params.offset)
+      .exec();
+  }
   async markMessagesAsRead(params: MarkMessagesAsReadDto) {
     const filterQuery: FilterQuery<SupportRequestDocument> = {};
     if (params.user) {
@@ -23,30 +35,35 @@ export class SupportRequestEmployeeService
     if (params.supportRequest) {
       filterQuery._id = params.supportRequest;
     }
-    const supportRequestDocument = await this.supportRequestModel
+    return this.supportRequestModel
       .findById(filterQuery._id)
-      .exec();
-    await this.messageModel.updateMany(
-      {
-        _id: { $in: supportRequestDocument.messages },
-        author: filterQuery.user,
-      },
-      { readAt: new Date(params.createdBefore) }
-    );
-    return { success: true };
+      .exec()
+      .then((supportRequestDocument) => {
+        return this.messageModel.updateMany(
+          {
+            _id: { $in: supportRequestDocument.messages },
+            author: filterQuery.user,
+          },
+          { readAt: new Date(params.createdBefore) }
+        );
+      })
+      .then(() => ({ success: true }));
   }
   async getUnreadCount(supportRequest: string): Promise<number> {
-    const supportRequestDocument = await this.supportRequestModel
+    return this.supportRequestModel
       .findById(supportRequest)
       .populate("user")
       .populate("messages")
-      .exec();
-    return supportRequestDocument.messages.length;
+      .exec()
+      .then((supportRequestDocument) => {
+        return supportRequestDocument.messages.length;
+      });
   }
   async closeRequest(supportRequest: string): Promise<void> {
-    await this.supportRequestModel.findByIdAndUpdate(supportRequest, {
-      isActive: false,
-    });
-    return null;
+    await this.supportRequestModel
+      .findByIdAndUpdate(supportRequest, {
+        isActive: false,
+      })
+      .then(() => null);
   }
 }

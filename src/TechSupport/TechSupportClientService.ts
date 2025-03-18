@@ -5,7 +5,7 @@ import { MarkMessagesAsReadDto } from "./Dtos/MarkMessagesAsReadDto";
 import { ISupportRequestClientService } from "./Interfaces/TechSupportInterface";
 import { Message, MessageDocument } from "./MessageSchema";
 import { SupportRequest, SupportRequestDocument } from "./TechSupportSchema";
-
+import { ISearchSupportRequestParams } from "./Interfaces/TechSupportSearchInterface";
 export class SupportRequestClientService
   implements ISupportRequestClientService
 {
@@ -15,6 +15,24 @@ export class SupportRequestClientService
     @InjectModel(Message.name)
     private readonly messageModel: Model<MessageDocument>
   ) {}
+
+  searchSupportRequests(user: string, params: ISearchSupportRequestParams) {
+    const queryFilter: FilterQuery<SupportRequestDocument> = {};
+
+    if (user) {
+      queryFilter.user = user;
+    }
+
+    if (params && params.isActive) {
+      queryFilter.isActive = params.isActive;
+    }
+
+    return this.supportRequestModel
+      .find(queryFilter, "createdAt isActive")
+      .limit(+params.limit)
+      .skip(+params.offset)
+      .exec();
+  }
 
   async createSupportRequest(
     data: CreateSupportRequestDto
