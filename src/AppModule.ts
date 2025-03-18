@@ -9,6 +9,7 @@ import { UserManagementModule } from "./UserManagement/UserManagementModule";
 import { HotelApiModule } from "./HotelsApi/HotelApiModule";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
+import { ReservationApiModule } from "./ReservationsApi/ReservationApiModule";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { join } from "path";
     ReservationModule,
     AuthModule,
     UserManagementModule,
+    ReservationApiModule,
     MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
