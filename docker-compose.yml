@@ -12,7 +12,7 @@ services:
     depends_on:
       - mongo-db
     environment:
-      - MONGO_DB_CONNECTION=mongodb://mongo-db:27017/hotels-api
+      - MONGO_DB_CONNECTION=mongodb+srv://helena6421helena:COGzemQD3q6A4d09s@cluster0.tqzmb.mongodb.net/
   mongo-db:
     image: mongo:5.0
     ports:

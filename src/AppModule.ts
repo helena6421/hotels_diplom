@@ -18,19 +18,15 @@ import { ConfigService } from "@nestjs/config";
 
 @Module({
   imports: [
+    MongooseModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>("MONGO_DB_CONNECTION"),
+      }),
+      inject: [ConfigService],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env",
-    }),
-    MongooseModule.forRootAsync({
-      useFactory: async (configService: ConfigService) => {
-        const uri = configService.get<string>("MONGO_DB_CONNECTION");
-        console.log(`Connecting to MongoDB at ${uri}`); // Логируйте URI
-        return {
-          uri,
-        };
-      },
-      inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "files"),
