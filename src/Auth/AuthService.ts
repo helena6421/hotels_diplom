@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from "@nestjs/common";
-import * as bcrypt from "bcrypt";
+const bcrypt = require("bcryptjs");
 import { UserService } from "src/Users/UserService";
 import { RegisterUserDto } from "./Dtos/RegisterUserDto";
 

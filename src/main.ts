@@ -11,7 +11,7 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: configService.get("SESSION_SECRET"),
+      secret: configService.get<string>("SESSION_SECRET"),
       resave: false,
       saveUninitialized: false,
     })

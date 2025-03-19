@@ -2,7 +2,7 @@ services:
   hotels_diplom:
     build:
       context: .
-      target: node:14-alpine
+      dockerfile: Dockerfile
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -14,7 +14,7 @@ services:
     environment:
       - MONGO_DB_CONNECTION=mongodb://mongo-db:27017/hotels-api
   mongo-db:
-    image: mongo:3.6
+    image: mongo:5.0
     ports:
       - 27017:27017
     volumes:

@@ -5,7 +5,6 @@ import { Hotel } from "../HotelSchema";
 export interface SearchHotelParams {
   limit: number;
   offset: number;
-  title: string;
 }
 
 export interface UpdateHotelParams {
@@ -23,6 +22,7 @@ export interface IHotelService {
 export interface SearchRoomsParams {
   limit: number;
   offset: number;
+  title: string;
   hotel: string;
   isEnabled?: boolean;
 }

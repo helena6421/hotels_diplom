@@ -12,6 +12,8 @@ import { ReservationApiModule } from "./ReservationsApi/ReservationApiModule";
 import { ChatModule } from "./Chat/ChatModule";
 import { Gateway } from "./Chat/Gateway";
 import { SupportRequestModule } from "./SupportRequests/SupportRequestModule";
+import { AppService } from "./AppService";
+import { AppController } from "./AppControlller";
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { SupportRequestModule } from "./SupportRequests/SupportRequestModule";
       serveRoot: "/files",
     }),
   ],
-  providers: [Gateway],
+  controllers: [AppController],
+  providers: [AppService, Gateway],
 })
 export class AppModule {}
