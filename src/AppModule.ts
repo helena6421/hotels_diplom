@@ -13,10 +13,29 @@ import { ChatModule } from "./Chat/ChatModule";
 import { Gateway } from "./Chat/Gateway";
 import { SupportRequestModule } from "./SupportRequests/SupportRequestModule";
 import { AppService } from "./AppService";
-import { AppController } from "./AppControlller";
+import { AppController } from "./AppController";
+import { ConfigService } from "@nestjs/config";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ".env",
+    }),
+    MongooseModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => {
+        const uri = configService.get<string>("MONGO_DB_CONNECTION");
+        console.log(`Connecting to MongoDB at ${uri}`); // Логируйте URI
+        return {
+          uri,
+        };
+      },
+      inject: [ConfigService],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "files"),
+      serveRoot: "/files",
+    }),
     UserModule,
     HotelApiModule,
     ReservationModule,
@@ -25,12 +44,6 @@ import { AppController } from "./AppControlller";
     ReservationApiModule,
     ChatModule,
     SupportRequestModule,
-    MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION),
-    ConfigModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "files"),
-      serveRoot: "/files",
-    }),
   ],
   controllers: [AppController],
   providers: [AppService, Gateway],

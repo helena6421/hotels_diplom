@@ -23,7 +23,10 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
+# production mode
+$ npm run start:prod
+```
+
 ## Stay in touch
 
 - Author - [Алёна_Ласкина](https://github.com/helena6421)
-```
